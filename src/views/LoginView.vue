@@ -1,27 +1,54 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
+const loginCacheKey = 'gmy-login-cache'
+const saved = JSON.parse(localStorage.getItem(loginCacheKey) || '{}') as {
+  username?: string
+  password?: string
+  remember?: boolean
+}
 
 const form = reactive({
-  username: 'admin',
-  password: '123456',
+  username: saved.username ?? '',
+  password: saved.remember ? (saved.password ?? '') : '',
+  remember: saved.remember ?? false,
 })
 const error = ref('')
+let oldUsername = form.username
 
 async function submit() {
   error.value = ''
   try {
     await auth.login(form)
+    localStorage.setItem(
+      loginCacheKey,
+      JSON.stringify({
+        username: form.username,
+        password: form.remember ? form.password : '',
+        remember: form.remember,
+      }),
+    )
     router.replace((route.query.redirect as string) || '/dashboard')
   } catch (err) {
     error.value = err instanceof Error ? err.message : '登录失败'
   }
 }
+
+watch(
+  () => form.username,
+  (username) => {
+    if (username !== oldUsername) {
+      form.password = ''
+      form.remember = false
+      oldUsername = username
+    }
+  },
+)
 </script>
 
 <template>
@@ -41,7 +68,6 @@ async function submit() {
       <div>
         <span class="eyebrow">Welcome back</span>
         <h2>登录工作台</h2>
-        <p>演示账号：admin / 123456，也可使用 coach / frontdesk 查看不同权限。</p>
       </div>
 
       <label class="field">
@@ -51,6 +77,10 @@ async function submit() {
       <label class="field">
         <span>密码</span>
         <input v-model="form.password" class="input" type="password" autocomplete="current-password" />
+      </label>
+      <label class="remember">
+        <input v-model="form.remember" type="checkbox" />
+        <span>记住密码</span>
       </label>
       <p v-if="error" class="error">{{ error }}</p>
       <button class="btn primary" type="submit" :disabled="auth.loading">
@@ -62,26 +92,38 @@ async function submit() {
 
 <style scoped>
 .login-page {
+  position: relative;
   display: grid;
   min-height: 100vh;
   grid-template-columns: minmax(0, 1.2fr) minmax(360px, 520px);
   align-items: center;
   gap: 36px;
   padding: 48px;
+  background:
+    linear-gradient(90deg, rgb(6 13 24 / 72%), rgb(6 13 24 / 28%)),
+    url('/login-bg.png') center / cover no-repeat;
 }
 
 .login-visual {
   display: grid;
   gap: 22px;
+  color: white;
 }
 
 .login-visual p,
 .eyebrow {
   margin: 0;
-  color: var(--brand);
   font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.login-visual p {
+  color: #bfdbfe;
+}
+
+.eyebrow {
+  color: var(--brand);
 }
 
 .login-visual h1 {
@@ -100,18 +142,20 @@ async function submit() {
 
 .visual-grid span {
   min-height: 84px;
-  border: 1px solid var(--line);
+  border: 1px solid rgb(255 255 255 / 22%);
   border-radius: 8px;
   padding: 14px;
-  background: rgb(255 253 249 / 70%);
-  color: var(--muted);
+  background: rgb(255 255 255 / 10%);
+  color: #e5eefc;
   font-weight: 800;
+  backdrop-filter: blur(8px);
 }
 
 .login-card {
   display: grid;
   gap: 18px;
   padding: 28px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 20%);
 }
 
 .login-card h2 {
@@ -123,6 +167,20 @@ async function submit() {
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.remember input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand);
 }
 
 .error {

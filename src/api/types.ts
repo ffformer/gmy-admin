@@ -34,14 +34,14 @@ export interface PageResult<T> {
 
 export interface Member {
   id: number
+  cardNo: string
   name: string
   phone: string
   level: '私教会员' | '年卡会员' | '季卡会员' | '体验会员'
   status: 'active' | 'expiring' | 'inactive'
-  coach: string
+  coach?: string
   joinDate: string
   expireDate: string
-  balance: number
   avatar: string
 }
 

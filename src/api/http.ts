@@ -76,9 +76,8 @@ export const memberApi = {
     assertAuth()
     const keyword = params.keyword?.trim()
     const rows = members.filter((item) => {
-      const matchKeyword = keyword
-        ? `${item.name}${item.phone}${item.coach}`.toLowerCase().includes(keyword.toLowerCase())
-        : true
+      const text = `${item.cardNo}${item.name}${item.phone}${item.coach ?? ''}`.toLowerCase()
+      const matchKeyword = keyword ? text.includes(keyword.toLowerCase()) : true
       const matchStatus = params.status ? item.status === params.status : true
       const matchType = params.type ? item.level === params.type : true
       return matchKeyword && matchStatus && matchType
@@ -90,17 +89,23 @@ export const memberApi = {
   async save(payload: Partial<Member>): Promise<Member> {
     await sleep()
     assertAuth()
+    const cardNo = payload.cardNo ?? String(620000 + members.length + 1)
+    const duplicated = members.some((item) => item.cardNo === cardNo && item.id !== payload.id)
+    if (duplicated) {
+      throw new Error('会员卡号已存在')
+    }
+
     const member: Member = {
       id: payload.id ?? members.length + 1,
+      cardNo,
       name: payload.name ?? '',
       phone: payload.phone ?? '',
       level: payload.level ?? '年卡会员',
       status: payload.status ?? 'active',
-      coach: payload.coach ?? '李牧',
+      coach: payload.level === '私教会员' ? (payload.coach ?? '李牧') : '',
       joinDate: payload.joinDate ?? new Date().toISOString().slice(0, 10),
       expireDate: payload.expireDate ?? '2027-01-01',
-      balance: payload.balance ?? 0,
-      avatar: payload.name?.slice(0, 1) ?? '新',
+      avatar: payload.avatar || payload.name?.slice(0, 1) || '新',
     }
 
     const index = members.findIndex((item) => item.id === member.id)
@@ -146,19 +151,5 @@ export const coachApi = {
     })
 
     return pickPage(rows, params)
-  },
-}
-
-export const uploadApi = {
-  async upload(file: File) {
-    await sleep(420)
-    assertAuth()
-    return {
-      name: file.name,
-      size: file.size,
-      type: file.type || 'unknown',
-      url: URL.createObjectURL(file),
-      uploadedAt: new Date().toLocaleString(),
-    }
   },
 }

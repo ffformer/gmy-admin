@@ -59,8 +59,8 @@ function logout() {
     <main class="workspace">
       <header class="topbar">
         <div>
-          <strong>今日运营看板</strong>
-          <span>会员、课程、教练与门店资产统一管理</span>
+          <strong>GymPro 健身房管理系统</strong>
+          <span>会员、课程、教练与经营数据管理</span>
         </div>
         <div class="user-box" v-if="auth.user">
           <span class="avatar">{{ auth.user.avatar }}</span>
@@ -96,9 +96,8 @@ function logout() {
   flex-direction: column;
   gap: 28px;
   border-right: 1px solid var(--line);
-  background: rgb(255 253 249 / 82%);
+  background: var(--surface);
   padding: 24px 18px;
-  backdrop-filter: blur(18px);
 }
 
 .brand {
@@ -113,7 +112,7 @@ function logout() {
   height: 44px;
   place-items: center;
   border-radius: 8px;
-  background: var(--ink);
+  background: var(--brand);
   color: white;
   font-weight: 900;
 }
@@ -164,9 +163,8 @@ function logout() {
   justify-content: space-between;
   gap: 16px;
   border-bottom: 1px solid var(--line);
-  background: rgb(244 241 236 / 82%);
+  background: var(--surface);
   padding: 0 28px;
-  backdrop-filter: blur(18px);
 }
 
 .topbar > div:first-child {

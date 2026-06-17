@@ -3,30 +3,30 @@ import type { Coach, Course, DashboardMetrics, Member, Role, UserProfile } from 
 export const users: Array<UserProfile & { password: string }> = [
   {
     id: 1,
-    name: '林予安',
-    account: 'admin',
-    password: '123456',
+    name: '刘大强',
+    account: '13096752125',
+    password: 'abc147258369',
     role: 'admin',
-    avatar: 'LA',
-    permissions: ['dashboard:view', 'member:manage', 'course:manage', 'coach:manage', 'upload:manage'],
+    avatar: '刘',
+    permissions: ['dashboard:view', 'member:manage', 'course:manage', 'coach:manage'],
   },
   {
     id: 2,
-    name: '周启航',
-    account: 'coach',
-    password: '123456',
+    name: '张老三',
+    account: '18587895134',
+    password: 'abc147258369',
     role: 'coach',
-    avatar: 'ZH',
+    avatar: '张',
     permissions: ['dashboard:view', 'member:manage', 'course:manage'],
   },
   {
     id: 3,
     name: '前台运营',
-    account: 'frontdesk',
-    password: '123456',
+    account: '748686818',
+    password: 'abc147258369',
     role: 'frontdesk',
     avatar: 'FD',
-    permissions: ['dashboard:view', 'member:manage', 'upload:manage'],
+    permissions: ['dashboard:view', 'member:manage'],
   },
 ]
 
@@ -60,14 +60,14 @@ export const members: Member[] = Array.from({ length: 48 }, (_, index) => {
   const status = statuses[index % statuses.length] ?? 'active'
   return {
     id,
+    cardNo: String(620000 + id),
     name: memberNames[index % memberNames.length] ?? `会员${id}`,
     phone: `138${String(32000000 + id * 137).slice(0, 8)}`,
     level: levels[index % levels.length] ?? '年卡会员',
     status,
-    coach: coaches[index % coaches.length] ?? '李牧',
+    coach: levels[index % levels.length] === '私教会员' ? (coaches[index % coaches.length] ?? '李牧') : '',
     joinDate: `2025-${String((index % 12) + 1).padStart(2, '0')}-${String((index % 25) + 1).padStart(2, '0')}`,
     expireDate: `2026-${String(((index + 5) % 12) + 1).padStart(2, '0')}-${String((index % 25) + 1).padStart(2, '0')}`,
-    balance: 800 + index * 126,
     avatar: (memberNames[index % memberNames.length] ?? '会员').slice(0, 1),
   }
 })
@@ -137,7 +137,7 @@ export const coachList: Coach[] = [
 ]
 
 export const roleNames: Record<Role, string> = {
-  admin: '超级管理员',
+  admin: '店长',
   coach: '教练主管',
   frontdesk: '前台运营',
 }
@@ -149,14 +149,13 @@ export const dashboardMetrics: DashboardMetrics = {
   courseCompletion: 87,
   trend: [42, 55, 49, 68, 73, 81, 96],
   category: [
-    { name: '私教课', value: 46, color: '#0f766e' },
-    { name: '团课', value: 28, color: '#c05621' },
+    { name: '私教课', value: 46, color: '#2563eb' },
+    { name: '团课', value: 28, color: '#0284c7' },
     { name: '会员卡', value: 19, color: '#334155' },
-    { name: '营养品', value: 7, color: '#b7791f' },
   ],
   recentOrders: [
-    { id: 'GMY20260617001', member: '沈知夏', item: '私教 12 节包', amount: 5880, time: '09:42' },
-    { id: 'GMY20260617002', member: '陈屿', item: '年卡续费', amount: 2680, time: '10:18' },
-    { id: 'GMY20260617003', member: '赵晴', item: '普拉提团课', amount: 399, time: '11:05' },
+    { id: 'GMY20260607001', member: '沈知夏', item: '私教 12 节包', amount: 5880, time: '09:42' },
+    { id: 'GMY20260607002', member: '陈屿', item: '年卡续费', amount: 2680, time: '10:18' },
+    { id: 'GMY20260607003', member: '赵晴', item: '普拉提团课', amount: 399, time: '11:05' },
   ],
 }

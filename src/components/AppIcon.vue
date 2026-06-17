@@ -23,10 +23,6 @@ defineProps<{
       d="M12 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm-4 1.2A8 8 0 0 0 12 16a8 8 0 0 0 4-.8V22l-4-2.2L8 22v-6.8Z"
     />
     <path
-      v-else-if="name === 'upload'"
-      d="M11 16V7.8l-3.3 3.3-1.4-1.4L12 4l5.7 5.7-1.4 1.4L13 7.8V16h-2Zm-6 2h14v2H5v-2Z"
-    />
-    <path
       v-else-if="name === 'logout'"
       d="M4 3h9v2H6v14h7v2H4V3Zm11.5 5 4 4-4 4-1.4-1.4 1.6-1.6H10v-2h5.7l-1.6-1.6L15.5 8Z"
     />

@@ -1,15 +1,19 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   data: number[]
   labels: string[]
 }>()
+
+const maxValue = computed(() => Math.max(...props.data, 1))
 </script>
 
 <template>
   <div class="chart" aria-label="趋势柱状图">
     <div v-for="(item, index) in data" :key="index" class="bar-item">
       <div class="bar-track">
-        <span class="bar" :style="{ height: `${Math.max(item, 8)}%` }"></span>
+        <span class="bar" :style="{ height: `${Math.max((item / maxValue) * 100, 8)}%` }"></span>
       </div>
       <small>{{ labels[index] }}</small>
     </div>
@@ -46,7 +50,7 @@ defineProps<{
   bottom: 0;
   left: 0;
   border-radius: 8px 8px 0 0;
-  background: linear-gradient(180deg, var(--brand), var(--accent));
+  background: var(--brand);
 }
 
 small {

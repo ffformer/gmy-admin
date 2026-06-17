@@ -33,12 +33,6 @@ export const appRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/CoachesView.vue'),
     meta: { title: '教练绩效', icon: 'award', permission: 'coach:manage' },
   },
-  {
-    path: '/upload',
-    name: 'upload',
-    component: () => import('@/views/UploadView.vue'),
-    meta: { title: '文件上传', icon: 'upload', permission: 'upload:manage' },
-  },
 ]
 
 const router = createRouter({
