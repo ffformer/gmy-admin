@@ -44,7 +44,7 @@ function logout() {
         <span>GMY</span>
         <div>
           <strong>GymPro</strong>
-          <small>健身房运营中台</small>
+          <small>健身房运营平台</small>
         </div>
       </RouterLink>
 

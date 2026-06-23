@@ -57,7 +57,7 @@ watch(
       <p>GymPro Management</p>
       <h1>健身房全流程运营管理系统</h1>
       <div class="visual-grid">
-        <span>会员生命周期</span>
+        <span>会员周期</span>
         <span>课程排期</span>
         <span>权限控制</span>
         <span>数据看板</span>
@@ -76,7 +76,12 @@ watch(
       </label>
       <label class="field">
         <span>密码</span>
-        <input v-model="form.password" class="input" type="password" autocomplete="current-password" />
+        <input
+          v-model="form.password"
+          class="input"
+          type="password"
+          autocomplete="current-password"
+        />
       </label>
       <label class="remember">
         <input v-model="form.remember" type="checkbox" />

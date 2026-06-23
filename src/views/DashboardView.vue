@@ -21,7 +21,7 @@ function money(value: number) {
     <div class="page-title">
       <div>
         <h1>经营总览</h1>
-        <p>把会员增长、课程消耗和营收趋势集中到一个视图。</p>
+        <p>会员增长、课程消耗和营收趋势视图。</p>
       </div>
     </div>
 
