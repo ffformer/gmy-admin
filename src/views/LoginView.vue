@@ -68,6 +68,10 @@ watch(
       <div>
         <span class="eyebrow">Welcome back</span>
         <h2>登录工作台</h2>
+        <span style="font-size: 14px; color: grey">
+          店长账号：13096752125 <br />教练主管：18587895134
+          <br />前台账号：748686818<br />密码：abc147258369
+        </span>
       </div>
 
       <label class="field">
